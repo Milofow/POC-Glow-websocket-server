@@ -27,6 +27,6 @@ io.on("connection", (socket) => {
 })
 
 
-server.listen(3001, () => {
-    console.log("Websocket server is running on port 3001")
+server.listen(process.env.PORT, () => {
+    console.log(`Websocket server is running on port ${process.env.PORT}`)
 });
