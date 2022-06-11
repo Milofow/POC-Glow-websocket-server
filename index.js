@@ -28,6 +28,13 @@ io.on("connection", (socket) => {
 })
 
 
-server.listen(PORT, () => {
-    console.log(`Websocket server is running on port ${PORT}`)
-});
+// server.listen(PORT, () => {
+//     console.log(`Websocket server is running on port ${PORT}`)
+// });
+
+server
+    .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
+    .listen(PORT, () => console.log(`Listening on ${PORT}`));
+
+
+setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
