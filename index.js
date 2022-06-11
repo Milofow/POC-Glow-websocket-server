@@ -1,41 +1,16 @@
-const express = require('express');
-const app = express();
-const http = require('http');
-const { Server } = require('socket.io');
-const cors = require('cors');
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
+const { createServer } = require("http");
+const { Server } = require("socket.io");
 
-const INDEX = "index.html";
-
-app.use(cors())
-app.use((req, res) => res.sendFile(INDEX, { root: __dirname }))
-
-const server = http.createServer(app)
-
-const io = new Server(server, { 
+const httpServer = createServer();
+const io = new Server(httpServer, { 
     cors: {
-        origin: "*",
-        methods: "*"
+        origin: '*',
     }
-})
-
+ });
 
 io.on("connection", (socket) => {
-    console.log(`User connected: ${socket.id}`)
-    
-    socket.on("weather", (data) => {
-        console.log(data)
-        socket.broadcast.emit("callback", data)
-    })
-})
-
-
-server.listen(PORT, () => {
-    console.log(`Websocket server is running on port ${PORT}`)
+  console.log("connected!")
 });
 
-
-
-
-
-
+httpServer.listen(PORT);
