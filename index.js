@@ -13,4 +13,6 @@ io.on("connection", (socket) => {
   console.log("connected!")
 });
 
-httpServer.listen(PORT);
+httpServer.listen(PORT, () => {
+    console.log('Listening on port ', PORT);
+});
