@@ -1,18 +1,33 @@
 const PORT = process.env.PORT || 8000;
-const { createServer } = require("http");
-const { Server } = require("socket.io");
+const express = require('express');
+const app = express();
+const http = require('http');
+const { Server } = require('socket.io');
+const cors = require('cors')
+app.use(cors())
 
-const httpServer = createServer();
-const io = new Server(httpServer, { 
+
+
+const server = http.createServer(app)
+
+const io = new Server(server, { 
     cors: {
-        origin: '*',
+        origin: "*",
+        methods: "*"
     }
- });
+})
+
 
 io.on("connection", (socket) => {
-  console.log("connected!")
-});
+    console.log(`User connected: ${socket.id}`)
+    
+    socket.on("weather", (data) => {
+        console.log(data)
+        socket.broadcast.emit("callback", data)
+    })
+})
 
-httpServer.listen(PORT, () => {
-    console.log('Listening on port ', PORT);
+
+server.listen(PORT, () => {
+    console.log("Websocket server is running on port ", PORT)
 });
