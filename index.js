@@ -23,7 +23,11 @@ io.on("connection", (socket) => {
     
     socket.on("weather", (data) => {
         console.log(data)
-        socket.broadcast.emit("callback", data)
+        socket.broadcast.emit("weatherCallback", data)
+    })
+    socket.on("time", (data) => {
+        console.log(data)
+        socket.broadcast.emit("timeCallback", data)
     })
 })
 
